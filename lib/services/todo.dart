@@ -17,4 +17,19 @@ class TodoService {
   void addTask(final String task, final String username) {
     _tasks.add(Task(username, task, false));
   }
+
+  Future<void> removeTask(final String task, final String username) async {
+    final taskToRemove = _tasks.values.firstWhere(
+      (element) => element.task == task && element.user == username,
+    );
+    await taskToRemove.delete();
+  }
+
+  Future<void> updateTask(final String task, final String username) async {
+    final taskToEdit = _tasks.values.firstWhere(
+      (element) => element.task == task && element.user == username,
+    );
+    final index = taskToEdit.key as int;
+    await _tasks.put(index, Task(username, task, !taskToEdit.completed));
+  }
 }
