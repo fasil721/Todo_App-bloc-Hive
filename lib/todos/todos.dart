@@ -22,18 +22,6 @@ class TodosPage extends StatelessWidget {
             if (state is TodosLoadedState) {
               return ListView(
                 children: [
-                  ...state.tasks.map(
-                    (e) => ListTile(
-                      title: Text(e.task),
-                      trailing: Checkbox(
-                        value: e.completed,
-                        onChanged: (val) {
-                          // BlocProvider.of<TodosBloc>(context)
-                          //     .add(ToggleTodoEvent(e.task));
-                        },
-                      ),
-                    ),
-                  ),
                   ListTile(
                     title: const Text('Create new task'),
                     trailing: const Icon(Icons.add),
@@ -47,7 +35,19 @@ class TodosPage extends StatelessWidget {
                         _todosbloc.add(AddTodoEvent(result));
                       }
                     },
-                  )
+                  ),
+                  ...state.tasks.map(
+                    (e) => ListTile(
+                      title: Text(e.task),
+                      trailing: Checkbox(
+                        value: e.completed,
+                        onChanged: (val) {
+                          BlocProvider.of<TodosBloc>(context)
+                              .add(ToggleTodoEvent(e.task));
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               );
             }

@@ -8,9 +8,9 @@ class AuthenticationService {
     Hive.registerAdapter(UserAdapter());
     _users = await Hive.openBox<User>('usersBox');
 
-    await _users.clear();
-    await _users.add(User('fasil', '123'));
-    await _users.add(User('justin', '123'));
+    // await _users.clear();
+    // await _users.add(User('fasil', '123'));
+    // await _users.add(User('cris', '123'));
   }
 
   String? authenticateUser(final String username, final String password) {
@@ -34,6 +34,7 @@ class AuthenticationService {
       _users.add(User(username, password));
       return UserCreationResult.success;
     } on Exception catch (ex) {
+    
       return UserCreationResult.failure;
     }
   }
