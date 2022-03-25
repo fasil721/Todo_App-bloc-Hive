@@ -15,8 +15,28 @@ class AuthenticationService {
 
   String? authenticateUser(final String username, final String password) {
     final success = _users.values.any(
-      (element) => element.usernane == username && element.password == password,
+      (element) => element.username == username && element.password == password,
     );
     return success ? username : null;
   }
+
+  Future<UserCreationResult> createUser(
+    final String username,
+    final String password,
+  ) async {
+    final alreadyExists = _users.values.any(
+      (element) => element.username.toLowerCase() == username.toLowerCase(),
+    );
+    if (alreadyExists) {
+      return UserCreationResult.alreadyExists;
+    }
+    try {
+      _users.add(User(username, password));
+      return UserCreationResult.success;
+    } on Exception catch (ex) {
+      return UserCreationResult.failure;
+    }
+  }
 }
+
+enum UserCreationResult { success, failure, alreadyExists }

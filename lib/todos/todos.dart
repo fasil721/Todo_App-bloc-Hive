@@ -4,9 +4,8 @@ import 'package:todo_with_hive_and_bloc/services/todo.dart';
 import 'package:todo_with_hive_and_bloc/todos/bloc/todos_bloc.dart';
 
 class TodosPage extends StatelessWidget {
-  final String username;
-
   const TodosPage({Key? key, required this.username}) : super(key: key);
+  final String username;
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +34,20 @@ class TodosPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // ListTile(
-                  //   title: Text('Create new task'),
-                  //   trailing: Icon(Icons.create),
-                  //   onTap: () async {
-                  //     final result = await showDialog<String>(
-                  //         context: context,
-                  //         builder: (context) => Dialog(
-                  //               child: CreateNewTask(),
-                  //             ));
-
-                  //     if (result != null) {
-                  //       BlocProvider.of<TodosBloc>(context)
-                  //           .add(AddTodoEvent(result));
-                  //     }
-                  //   },
-                  // )
+                  ListTile(
+                    title: const Text('Create new task'),
+                    trailing: const Icon(Icons.add),
+                    onTap: () async {
+                      final _todosbloc = BlocProvider.of<TodosBloc>(context);
+                      final result = await showDialog<String>(
+                        context: context,
+                        builder: (context) => Dialog(child: CreateNewTask()),
+                      );
+                      if (result != null) {
+                        _todosbloc.add(AddTodoEvent(result));
+                      }
+                    },
+                  )
                 ],
               );
             }
@@ -60,4 +57,25 @@ class TodosPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class CreateNewTask extends StatelessWidget {
+  CreateNewTask({Key? key}) : super(key: key);
+  final _inputController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          const Text("What task do you want to create?"),
+          TextField(
+            controller: _inputController,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(_inputController.text);
+            },
+            child: const Text('SAVE'),
+          )
+        ],
+      );
 }

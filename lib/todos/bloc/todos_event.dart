@@ -11,3 +11,10 @@ class LoadTodosEvent extends TodosEvent {
   @override
   List<Object?> get props => [usernane];
 }
+class AddTodoEvent extends TodosEvent {
+  const AddTodoEvent(this.todoText);
+  final String todoText;
+
+  @override
+  List<Object?> get props => [todoText];
+}

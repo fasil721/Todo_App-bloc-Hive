@@ -27,7 +27,7 @@ class UserAdapter extends TypeAdapter<User> {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.usernane)
+      ..write(obj.username)
       ..writeByte(1)
       ..write(obj.password);
   }

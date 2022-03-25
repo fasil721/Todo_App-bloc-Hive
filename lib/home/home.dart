@@ -31,6 +31,17 @@ class HomePage extends StatelessWidget {
                 ),
               );
             }
+            if (state is HomeInitial) {
+              if (state.error != null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text("Error"),
+                    content: Text(state.error!),
+                  ),
+                );
+              }
+            }
           },
           builder: (context, state) {
             if (state is HomeInitial) {}
@@ -60,11 +71,12 @@ class HomePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          // BlocProvider.of<HomeBloc>(context).add(
-                          //   RegisterAccountEvent(usernameField.text, passwordField.text),
-                          // );
-                        },
+                        onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                          RegisterAccountEvent(
+                            usernameField.text,
+                            passwordField.text,
+                          ),
+                        ),
                         child: const Text('REGISTER'),
                       ),
                     )

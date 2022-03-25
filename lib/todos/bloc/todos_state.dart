@@ -11,7 +11,8 @@ class TodosInitial extends TodosState {
 
 class TodosLoadedState extends TodosState {
   final List<Task> tasks;
-  const TodosLoadedState({required this.tasks});
+  final String username;
+  const TodosLoadedState({required this.username, required this.tasks});
   @override
   List<Object> get props => [tasks];
 }
