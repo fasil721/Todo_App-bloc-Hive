@@ -7,6 +7,10 @@ class AuthenticationService {
   Future<void> init() async {
     Hive.registerAdapter(UserAdapter());
     _users = await Hive.openBox<User>('usersBox');
+
+    await _users.clear();
+    await _users.add(User('fasil', '123'));
+    await _users.add(User('justin', '123'));
   }
 
   String? authenticateUser(final String username, final String password) {
