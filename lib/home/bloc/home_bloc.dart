@@ -15,19 +15,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (user != null) {
         emit(SuccessfulLoginState(user));
         emit(const HomeInitial());
+      } else {
+        emit(const HomeInitial(error: "User does not exist"));
       }
     });
+    
     on<RegisterAccountEvent>((event, emit) async {
       final result = await _auth.createUser(event.username, event.password);
       switch (result) {
-        case UserCreationResult.success:
+        case UserRegisterCreation.success:
           emit(SuccessfulLoginState(event.username));
           break;
-        case UserCreationResult.failure:
+        case UserRegisterCreation.failure:
           emit(const HomeInitial(error: "There's been a error"));
           break;
-        case UserCreationResult.alreadyExists:
-          emit(const HomeInitial(error: "User already exists"));
+        case UserRegisterCreation.alreadyExists:
+          emit(const HomeInitial(error: "User already exist"));
           break;
       }
     });
